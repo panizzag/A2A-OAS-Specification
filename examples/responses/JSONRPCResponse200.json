@@ -1,0 +1,10 @@
+{
+  "jsonrpc": "2.0",
+  "id": "abc123",
+  "result": {
+    "status": {
+      "state": "submitted",
+      "timestamp": "2025-05-13T15:00:00Z"
+    }
+  }
+}

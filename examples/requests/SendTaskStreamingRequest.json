@@ -1,0 +1,19 @@
+{
+  "jsonrpc": "2.0",
+  "id": "stream-123",
+  "method": "tasks/sendStreaming",
+  "params": {
+    "id": "task-002",
+    "sessionId": "session-002",
+    "message": {
+      "role": "user",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Summarize the attached report."
+        }
+      ]
+    },
+    "acceptedOutputModes": ["text"]
+  }
+}

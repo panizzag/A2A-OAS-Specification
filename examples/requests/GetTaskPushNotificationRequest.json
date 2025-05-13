@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "id": "notify-002",
+  "method": "tasks/getPushNotification",
+  "params": {
+    "id": "task-001"
+  }
+}

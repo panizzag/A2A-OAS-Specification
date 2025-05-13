@@ -1,0 +1,27 @@
+{
+  "name": "SummarizerAgent",
+  "description": "An agent that summarizes long documents or articles.",
+  "url": "https://agents.example.com/summarizer",
+  "provider": {
+    "name": "AgentCorp",
+    "version": "1.2.0"
+  },
+  "version": "1.2.0",
+  "documentationUrl": "https://docs.example.com/summarizer-agent",
+  "capabilities": {
+    "capabilities": ["text-summary", "document-processing"]
+  },
+  "authentication": {
+    "schemes": ["Bearer"],
+    "credentials": null
+  },
+  "defaultInputModes": ["text"],
+  "defaultOutputModes": ["text"],
+  "skills": [
+    {
+      "name": "Text Summarization",
+      "description": "Summarizes articles, blog posts, or academic papers.",
+      "expertise": "advanced"
+    }
+  ]
+}

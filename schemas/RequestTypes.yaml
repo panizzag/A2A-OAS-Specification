@@ -1,0 +1,265 @@
+PushNotificationConfig:
+  type: object
+  properties:
+    url:
+      type: string
+    token:
+      type: string
+      nullable: true
+    authentication:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of authentication (e.g., "Bearer", "Basic", etc.)
+        credentials:
+          type: string
+          description: The credentials used for authentication (e.g., token or username/password)
+      required:
+        - type
+        - credentials  
+  required: [url]
+
+TaskIdParams:
+  type: object
+  properties:
+    id:
+      type: string
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id]
+
+TaskQueryParams:
+  allOf:
+    - $ref: '#/components/schemas/TaskIdParams'
+    - type: object
+      properties:
+        historyLength:
+          type: integer
+          nullable: true
+
+TaskSendParams:
+  type: object
+  properties:
+    id:
+      type: string
+    sessionId:
+      type: string
+    message:
+      $ref: './schemas/TaskTypes.yaml#/Message'
+    acceptedOutputModes:
+      type: array
+      items:
+        type: string
+      nullable: true
+    pushNotification:
+      $ref: '#/components/schemas/PushNotificationConfig'
+      nullable: true
+    historyLength:
+      type: integer
+      nullable: true
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id, sessionId, message]
+
+SendTaskRequest:
+  type: object
+  required:
+    - jsonrpc
+    - id
+    - method
+    - params
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+      description: JSON-RPC version
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+      description: Request identifier
+    method:
+      type: string
+      enum: ["tasks/send"]
+      description: RPC method name
+    params:
+      $ref: '#/components/schemas/TaskSendParams'
+
+GetTaskRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/get"]
+    params:
+      $ref: '#/components/schemas/TaskQueryParams'
+
+TaskStatusUpdateEvent:
+  type: object
+  properties:
+    id:
+      type: string
+    status:
+      $ref: './schemas/TaskTypes.yaml#/TaskStatus'
+    final:
+      type: boolean
+      default: false
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id, status]
+
+TaskArtifactUpdateEvent:
+  type: object
+  properties:
+    id:
+      type: string
+    artifact:
+      $ref: './schemas/TaskTypes.yaml#/Artifact'
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id, artifact]
+
+TaskPushNotificationConfig:
+  type: object
+  properties:
+    id:
+      type: string
+    pushNotification:
+      $ref: '#/components/schemas/PushNotificationConfig'
+      metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+      required: [id, pushNotification]
+TaskResubscription:
+  type: object
+  properties:
+    id:
+      type: string
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id]
+
+TaskQueryResponse:
+  type: object
+  properties:
+    status:
+      $ref: './schemas/TaskTypes.yaml#/TaskStatus'
+    artifacts:
+      type: array
+      items:
+        $ref: './schemas/TaskTypes.yaml#/Artifact'
+    history:
+      type: array
+      items:
+        $ref: './schemas/TaskTypes.yaml#/Message'
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+
+
+SendTaskStreamingRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/sendStreaming"]
+    params:
+      $ref: '#/components/schemas/TaskSendParams'
+
+
+CancelTaskRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/cancel"]
+    params:
+      $ref: '#/components/schemas/TaskIdParams'
+
+SetTaskPushNotificationRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/setPushNotification"]
+    params:
+      $ref: '#/components/schemas/TaskPushNotificationConfig'
+
+GetTaskPushNotificationRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/getPushNotification"]
+    params:
+      $ref: '#/components/schemas/TaskIdParams'
+
+TaskResubscriptionRequest:
+  type: object
+  required: [jsonrpc, id, method, params]
+  properties:
+    jsonrpc:
+      type: string
+      enum: ["2.0"]
+    id:
+      oneOf:
+        - type: string
+        - type: integer
+    method:
+      type: string
+      enum: ["tasks/resubscribe"]
+    params:
+      $ref: '#/components/schemas/TaskIdParams'

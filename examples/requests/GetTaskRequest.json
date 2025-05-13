@@ -1,0 +1,9 @@
+{
+  "jsonrpc": "2.0",
+  "id": "get-001",
+  "method": "tasks/get",
+  "params": {
+    "id": "task-001",
+    "historyLength": 5
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "jsonrpc": "2.0",
+  "id": "abc123",
+  "method": "tasks/send",
+  "params": {
+    "id": "task-001",
+    "sessionId": "session-001",
+    "message": {
+      "role": "user",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Translate this to French"
+        }
+      ]
+    },
+    "acceptedOutputModes": ["text"],
+    "historyLength": 3
+  }
+}

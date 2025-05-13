@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: A2A Agent JSON-RPC API
+  description: >
+    JSON-RPC 2.0 API for Agent-to-Agent (A2A) communication supporting task management operations like send, cancel, get, stream, and notifications.
+  version: 1.0.0
+
+paths:
+  /:
+    post:
+      summary: JSON-RPC 2.0 entry point for agent operations
+      operationId: handleJsonRpcRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: './schemas/RequestTypes.yaml#/SendTaskRequest'
+                - $ref: './schemas/RequestTypes.yaml#/GetTaskRequest'
+                - $ref: './schemas/RequestTypes.yaml#/SendTaskStreamingRequest'
+                - $ref: './schemas/RequestTypes.yaml#/CancelTaskRequest'
+                - $ref: './schemas/RequestTypes.yaml#/SetTaskPushNotificationRequest'
+                - $ref: './schemas/RequestTypes.yaml#/GetTaskPushNotificationRequest'
+                - $ref: './schemas/RequestTypes.yaml#/TaskResubscriptionRequest'
+      responses:
+        '200':
+          description: JSON-RPC success or streaming response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JSONRPCResponse'
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+        '400':
+          description: Invalid JSON-RPC request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JSONRPCResponse'
+
+  /.well-known/agent.json:
+    get:
+      summary: Returns the public AgentCard metadata
+      operationId: getAgentCard
+      responses:
+        '200':
+          description: Public metadata describing the agent
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/AgentTypes.yaml#/AgentCard'
+              examples:
+                agent card:
+                  summary: Example of agent card
+                  externalValue: ./examples/AgentCard.json
+components:
+  schemas:
+    JSONRPCResponse:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+        id:
+          type: string
+        result:
+          type: object
+        error:
+          type: object

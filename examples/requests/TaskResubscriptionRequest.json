@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "id": "resub-001",
+  "method": "tasks/resubscribe",
+  "params": {
+    "id": "task-001"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "jsonrpc": "2.0",
+  "id": "notify-001",
+  "method": "tasks/setPushNotification",
+  "params": {
+    "id": "task-001",
+    "pushNotification": {
+      "url": "https://example.com/notify",
+      "authentication": {
+        "type": "Bearer",
+        "credentials": "example-token-123"
+      }
+    }
+  }
+}

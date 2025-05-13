@@ -1,0 +1,97 @@
+AgentProvider:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - version
+
+AgentCapabilities:
+  type: object
+  properties:
+    capabilities:
+      type: array
+      items:
+        type: string
+  required:
+    - capabilities
+
+AgentAuthentication:
+  type: object
+  properties:
+    schemes:
+      type: array
+      items:
+        type: string
+    credentials:
+      type: string
+      nullable: true
+  required:
+    - schemes
+
+AgentSkill:
+  type: object
+  properties:
+    name:
+      type: string
+    description:
+      type: string
+      nullable: true
+    expertise:
+      type: string
+      nullable: true
+  required:
+    - name
+    
+AgentState:
+  type: string
+  enum: [idle, active, suspended, shutdown]
+
+AgentCard:
+  type: object
+  properties:
+    name:
+      type: string
+    description:
+      type: string
+      nullable: true
+    url:
+      type: string
+    provider:
+      $ref: '#/components/schemas/AgentProvider'
+      nullable: true
+    version:
+      type: string
+    documentationUrl:
+      type: string
+      nullable: true
+    capabilities:
+      $ref: '#/components/schemas/AgentCapabilities'
+    authentication:
+      $ref: '#/components/schemas/AgentAuthentication'
+      nullable: true
+    defaultInputModes:
+      type: array
+      items:
+        type: string
+      default:
+        - "text"
+    defaultOutputModes:
+      type: array
+      items:
+        type: string
+      default:
+        - "text"
+    skills:
+      type: array
+      items:
+        $ref: '#/components/schemas/AgentSkill'
+  required:
+    - name
+    - url
+    - version
+    - capabilities
+    - skills

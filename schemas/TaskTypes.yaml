@@ -1,0 +1,152 @@
+TaskState:
+  type: string
+  enum: [submitted, working, input-required, completed, canceled, failed, unknown]
+
+TaskAction:
+  type: string
+  enum: [create, cancel, query, update, resubscribe]
+
+TextPart:
+  type: object
+  properties:
+    type:
+      enum: ["text"]
+    text:
+      type: string
+    metadata:
+      type: object
+      additionalProperties: true
+  required: [type, text]
+
+FileContent:
+  type: object
+  properties:
+    name:
+      type: string
+      nullable: true
+    mimeType:
+      type: string
+      nullable: true
+    bytes:
+      type: string
+      nullable: true
+    uri:
+      type: string
+      nullable: true
+  oneOf:
+    - required: [bytes]
+    - required: [uri]
+
+FilePart:
+  type: object
+  properties:
+    type:
+      enum: [file]
+    file:
+      $ref: '#/components/schemas/FileContent'
+    metadata:
+      type: object
+      additionalProperties: true
+  required: [type, file]
+
+DataPart:
+  type: object
+  properties:
+    type:
+      enum: [data]
+    data:
+      type: object
+      additionalProperties: true
+    metadata:
+      type: object
+      additionalProperties: true
+  required: [type, data]
+
+Part:
+  oneOf:
+    - $ref: '#/components/schemas/TextPart'
+    - $ref: '#/components/schemas/FilePart'
+    - $ref: '#/components/schemas/DataPart'
+  discriminator:
+    propertyName: type
+
+Message:
+  type: object
+  properties:
+    role:
+      type: string
+      enum: [user, agent]
+    parts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Part'
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [role, parts]
+
+TaskStatus:
+  type: object
+  properties:
+    state:
+      $ref: '#/components/schemas/TaskState'
+    message:
+      $ref: '#/components/schemas/Message'
+      nullable: true
+    timestamp:
+      type: string
+      format: date-time
+  required: [state, timestamp]
+
+Artifact:
+  type: object
+  properties:
+    name:
+      type: string
+      nullable: true
+    description:
+      type: string
+      nullable: true
+    parts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Part'
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+    index:
+      type: integer
+    append:
+      type: boolean
+      nullable: true
+    lastChunk:
+      type: boolean
+      nullable: true
+  required: [parts, index]
+Task:
+  type: object
+  properties:
+    id:
+      type: string
+    sessionId:
+      type: string
+      nullable: true
+    status:
+      $ref: '#/components/schemas/TaskStatus'
+    artifacts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Artifact'
+      nullable: true
+    history:
+      type: array
+      items:
+        $ref: '#/components/schemas/Message'
+      nullable: true
+    metadata:
+      type: object
+      additionalProperties: true
+      nullable: true
+  required: [id, status]
