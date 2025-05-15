@@ -3,19 +3,21 @@ AgentProvider:
       properties:
         name:
           type: string
-        version:
+        url:
           type: string
       required:
         - name
-        - version
+        - url
 
 AgentCapabilities:
   type: object
   properties:
-    capabilities:
-      type: array
-      items:
-        type: string
+    streaming:
+      type: boolean
+    pushNotifications:
+      type: boolean
+    stateTransitionHistory:
+      type: boolean
   required:
     - capabilities
 

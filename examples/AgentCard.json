@@ -4,19 +4,21 @@
   "url": "https://agents.example.com/summarizer",
   "provider": {
     "name": "AgentCorp",
-    "version": "1.2.0"
+    "url": "https://www.example.com"
   },
-  "version": "1.2.0",
+  "version": "1.0.0",
   "documentationUrl": "https://docs.example.com/summarizer-agent",
   "capabilities": {
-    "capabilities": ["text-summary", "document-processing"]
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": false
   },
   "authentication": {
     "schemes": ["Bearer"],
     "credentials": null
   },
-  "defaultInputModes": ["text"],
-  "defaultOutputModes": ["text"],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain"],
   "skills": [
     {
       "name": "Text Summarization",

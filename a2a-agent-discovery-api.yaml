@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: A2A Agent JSON-RPC API
+  title: A2A Server API
   description: >
     JSON-RPC 2.0 API for Agent-to-Agent (A2A) communication supporting task management operations like send, cancel, get, stream, and notifications.
   version: 1.0.0

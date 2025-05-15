@@ -1,0 +1,13 @@
+{
+  "main": "a2a-agent-discovery-api.yaml",
+  "name": "a2a-server-api",
+  "groupId": "${replace_this}",
+  "assetId": "a2a-server-api",
+  "version": "1.0.0",
+  "classifier": "oas",
+  "tags": [],
+  "descriptorVersion": "1.0.0",
+  "organizationId": "${replace_this}",
+  "apiVersion": "v1",
+  "originalFormatVersion": "3.0"
+}
